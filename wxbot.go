@@ -24,7 +24,7 @@ type Bot interface {
 	Encrypt(msg string) (data []byte)
 	GetSign(timestamp, nonce, data string) string
 	GetFullName() string
-	SendMsg(addr, chatid, content string, msgtype MsgType) error
+	SendMsg(addr, chatid, content string, msgtype MsgType, ml ...string) error
 }
 
 // impl Bot
@@ -125,11 +125,13 @@ func (b *bot) GetSign(timestamp, nonce, data string) string {
 	return fmt.Sprintf("%x", sha.Sum(nil))
 }
 
-func (b *bot) SendMsg(addr, chatid, content string, msgtype MsgType) error {
+// SendMsg 发送消息
+func (b *bot) SendMsg(addr, chatid, content string, msgtype MsgType, ml ...string) error {
 	payload := &SendMsgRequest{MsgType: msgtype, ChatID: chatid}
 	switch msgtype {
 	case "text":
 		payload.Text.Content = content
+		payload.Text.MentionedList = ml
 	default:
 		//
 	}

@@ -112,6 +112,7 @@ type SendMsgRequest struct {
 	ChatID  string  `json:"chatid"`
 	MsgType MsgType `json:"msgtype"`
 	Text    struct {
-		Content string `json:"content"`
+		Content       string   `json:"content"`
+		MentionedList []string `json:"mentioned_list"`
 	} `json:"text"`
 }
